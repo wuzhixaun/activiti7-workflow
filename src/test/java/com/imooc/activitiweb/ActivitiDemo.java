@@ -1,13 +1,16 @@
 package com.imooc.activitiweb;
 
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.zip.ZipInputStream;
 
@@ -32,8 +35,8 @@ public class ActivitiDemo {
         // 3.部署
 
         final Deployment deployment = repositoryService.createDeployment()
-                .name("测试")
-                .addClasspathResource("resources/bpmn/test2.bpmn")
+                .name("请假申请")
+                .addClasspathResource("resources/bpmn/evection.bpmn")
                 .deploy();
         // 4.输出部署信息
         System.out.println("流程部署ID:"+deployment.getId());
@@ -73,7 +76,7 @@ public class ActivitiDemo {
         final ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         // 2.getTaskService
         final TaskService taskService = processEngine.getTaskService();
-        String person = "张三";
+        String person = "rose";
 
         final List<Task> taskList = taskService.createTaskQuery()
                 .processDefinitionKey("Process_1")
@@ -143,6 +146,100 @@ public class ActivitiDemo {
 
         System.out.println("流程部署id:" + deploy.getId());
         System.out.println("流程部署name:" + deploy.getName());
+
+
+    }
+
+
+    @Test
+    public void queryProcessDefinition() {
+        // 获取引擎
+        final ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 获取service
+        final RepositoryService repositoryService = processEngine.getRepositoryService();
+
+        final List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery()
+                .processDefinitionKey("Process_1")
+                .orderByProcessDefinitionVersion()
+                .desc()
+                .list();
+
+        for (ProcessDefinition processDefinition : list) {
+            System.out.println("id：" + processDefinition.getId());
+            System.out.println("key："+processDefinition.getKey());
+            System.out.println("name："+processDefinition.getName());
+            System.out.println("suspend:"+processDefinition.isSuspended());
+            System.out.println("version:"+processDefinition.getVersion());
+        }
+
+    }
+
+
+    /**
+     * 删除流程部署信息
+     */
+    @Test
+    public void deleteDeployment() {
+        // 获取引擎
+        final ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 获取service
+        final RepositoryService repositoryService = processEngine.getRepositoryService();
+
+        String id = "bb9b7032-d16d-11ed-8802-b21d15b421eb";
+        // 如果一个实例没有跑完则可以采用级联删除
+        repositoryService.deleteDeployment(id,true);
+    }
+
+
+    @Test
+    public void getDeployment() throws IOException {
+        // 获取引擎
+        final ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 获取service
+        final RepositoryService repositoryService = processEngine.getRepositoryService();
+        // 查询流程定义信息
+        final ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                .processDefinitionKey("Process_1")
+                .singleResult();
+
+        final String deploymentId = processDefinition.getDeploymentId();
+        final String resourceName = processDefinition.getResourceName();
+
+        final InputStream resourceAsStream = repositoryService.getResourceAsStream(deploymentId, resourceName);
+
+        File file = new File("/Users/wuzhixuan/Java/project/activiti7-workflow/src/main/resources/resources/uploadfile/ja.bpmn");
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+
+        IOUtils.copy(resourceAsStream, fileOutputStream);
+
+
+        resourceAsStream.close();
+        fileOutputStream.close();
+    }
+
+
+    @Test
+    public void findHistoryInfo() {
+        // 获取引擎
+        final ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 获取service
+        final HistoryService historyService = processEngine.getHistoryService();
+
+        final List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId("284a5e01-d173-11ed-9452-b21d15b421eb")
+                .orderByHistoricActivityInstanceStartTime()
+                .asc()
+                .list();
+
+        for (HistoricActivityInstance historicActivityInstance : list) {
+            System.out.println(historicActivityInstance.getActivityId());
+            System.out.println(historicActivityInstance.getActivityType());
+            System.out.println(historicActivityInstance.getActivityName());
+            System.out.println(historicActivityInstance.getProcessDefinitionId());
+            System.out.println(historicActivityInstance.getProcessInstanceId());
+            System.out.println("=============");
+        }
 
 
     }
