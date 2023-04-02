@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:activiti="http://activiti.org/bpmn" id="sample-diagram" targetNamespace="http://activiti.org/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="test_1" name="测试" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>Flow_0mfr81b</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="Activity_1a7cntf" name="测试" activiti:assignee="张三">
+      <bpmn2:incoming>Flow_0mfr81b</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0c7vqzn</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0mfr81b" sourceRef="StartEvent_1" targetRef="Activity_1a7cntf" />
+    <bpmn2:sequenceFlow id="Flow_0c7vqzn" sourceRef="Activity_1a7cntf" targetRef="Event_012uaba" />
+    <bpmn2:endEvent id="Event_012uaba">
+      <bpmn2:incoming>Flow_0c7vqzn</bpmn2:incoming>
+    </bpmn2:endEvent>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test_1">
+      <bpmndi:BPMNEdge id="Flow_0c7vqzn_di" bpmnElement="Flow_0c7vqzn">
+        <di:waypoint x="780" y="170" />
+        <di:waypoint x="1352" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mfr81b_di" bpmnElement="Flow_0mfr81b">
+        <di:waypoint x="628" y="170" />
+        <di:waypoint x="680" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="592" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1a7cntf_di" bpmnElement="Activity_1a7cntf">
+        <dc:Bounds x="680" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_012uaba_di" bpmnElement="Event_012uaba">
+        <dc:Bounds x="1352" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
