@@ -39,9 +39,9 @@ public class ActivitiDemo {
                 .addClasspathResource("resources/bpmn/evection.bpmn")
                 .deploy();
         // 4.输出部署信息
-        System.out.println("流程部署ID:"+deployment.getId());
+        System.out.println("流程部署ID:" + deployment.getId());
 
-        System.out.println("流程部署name:"+deployment.getName());
+        System.out.println("流程部署name:" + deployment.getName());
 
     }
 
@@ -59,9 +59,9 @@ public class ActivitiDemo {
         // 3.根据流程定义id启动流程
         final ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Process_1");
         // 4.输出
-        System.out.println("流程定义id"+processInstance.getProcessDefinitionId());
-        System.out.println("流程实例id"+processInstance.getId());
-        System.out.println("当前活动id"+processInstance.getActivityId());
+        System.out.println("流程定义id" + processInstance.getProcessDefinitionId());
+        System.out.println("流程实例id" + processInstance.getId());
+        System.out.println("当前活动id" + processInstance.getActivityId());
 
     }
 
@@ -109,7 +109,7 @@ public class ActivitiDemo {
         // 完成任务
 //        taskService.complete("bb0c41a5-d0af-11ed-8e1f-5202c415eaf9");
 
-        String taskAssignee = "rose";
+        String taskAssignee = "Jerry";
         // 获取jerry任务一
         final Task task = taskService.createTaskQuery()
                 .processDefinitionKey("Process_1")
@@ -166,10 +166,10 @@ public class ActivitiDemo {
 
         for (ProcessDefinition processDefinition : list) {
             System.out.println("id：" + processDefinition.getId());
-            System.out.println("key："+processDefinition.getKey());
-            System.out.println("name："+processDefinition.getName());
-            System.out.println("suspend:"+processDefinition.isSuspended());
-            System.out.println("version:"+processDefinition.getVersion());
+            System.out.println("key：" + processDefinition.getKey());
+            System.out.println("name：" + processDefinition.getName());
+            System.out.println("suspend:" + processDefinition.isSuspended());
+            System.out.println("version:" + processDefinition.getVersion());
         }
 
     }
@@ -187,7 +187,7 @@ public class ActivitiDemo {
 
         String id = "bb9b7032-d16d-11ed-8802-b21d15b421eb";
         // 如果一个实例没有跑完则可以采用级联删除
-        repositoryService.deleteDeployment(id,true);
+        repositoryService.deleteDeployment(id, true);
     }
 
 
@@ -243,5 +243,72 @@ public class ActivitiDemo {
 
 
     }
+
+
+    /**
+     * 全部流程实例的挂起和激活
+     */
+    @Test
+    public void suspendAllProcessInstance() {
+        // 获取引擎
+        final ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // repositoryService
+        final RepositoryService repositoryService = processEngine.getRepositoryService();
+
+        // 查询流程定义
+        final ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                .processDefinitionKey("Process_1")
+                .singleResult();
+
+
+        final boolean suspended = processDefinition.isSuspended();
+        System.out.println(suspended);
+
+        // 获取流程定义id
+        final String id = processDefinition.getId();
+        // 如果是挂起改为激活，如果是激活改成挂起
+        if (suspended) {
+            repositoryService.activateProcessDefinitionById(id, true, null);
+            System.out.println("流程定义ID"+id+"已激活");
+        } else {
+            repositoryService.suspendProcessDefinitionById(id, true, null);
+            System.out.println("流程定义ID"+id+"已挂起");
+        }
+
+    }
+
+
+    /**
+     * 暂停单个流程实例
+     */
+    @Test
+    public void suspendSingleProcessInstance() {
+        // 获取引擎
+        final ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // repositoryService
+        final RuntimeService runtimeService = processEngine.getRuntimeService();
+
+        // 查询流程定义
+        final ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .processInstanceId("ba5be4a6-d234-11ed-91e0-be3e7e9e5943")
+                .singleResult();
+
+
+        final boolean suspended = processInstance.isSuspended();
+        System.out.println(suspended);
+
+        // 获取流程定义id
+        final String id = processInstance.getId();
+        // 如果是挂起改为激活，如果是激活改成挂起
+        if (suspended) {
+            runtimeService.activateProcessInstanceById(id);
+            System.out.println("流程实例ID"+id+"已激活");
+        } else {
+            runtimeService.suspendProcessInstanceById(id);
+            System.out.println("流程瑟实例ID"+id+"已挂起");
+        }
+
+    }
+
 
 }

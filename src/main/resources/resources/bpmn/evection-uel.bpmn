@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:activiti="http://activiti.org/bpmn" id="sample-diagram" targetNamespace="http://activiti.org/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="myevection1" name="出差申请UEL" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>Flow_0x56vwg</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="Activity_0dtujum" name="创建出差申请" activiti:assignee="${assignee0}">
+      <bpmn2:incoming>Flow_0x56vwg</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0zgy984</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0x56vwg" sourceRef="StartEvent_1" targetRef="Activity_0dtujum" />
+    <bpmn2:userTask id="Activity_10kxnwa" name="经理审批" activiti:assignee="${assignee1}">
+      <bpmn2:incoming>Flow_0zgy984</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1uwudm9</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0zgy984" sourceRef="Activity_0dtujum" targetRef="Activity_10kxnwa" />
+    <bpmn2:userTask id="Activity_1k96fws" name="总经理审批" activiti:assignee="${assignee2}">
+      <bpmn2:incoming>Flow_1uwudm9</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1phu172</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_1uwudm9" sourceRef="Activity_10kxnwa" targetRef="Activity_1k96fws" />
+    <bpmn2:userTask id="Activity_1edszk5" name="财务审批" activiti:assignee="${assignee3}">
+      <bpmn2:incoming>Flow_1phu172</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0ersm07</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_1phu172" sourceRef="Activity_1k96fws" targetRef="Activity_1edszk5" />
+    <bpmn2:endEvent id="Event_0es94qq">
+      <bpmn2:incoming>Flow_0ersm07</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_0ersm07" sourceRef="Activity_1edszk5" targetRef="Event_0es94qq" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="myevection1">
+      <bpmndi:BPMNEdge id="Flow_0x56vwg_di" bpmnElement="Flow_0x56vwg">
+        <di:waypoint x="500" y="148" />
+        <di:waypoint x="500" y="218" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zgy984_di" bpmnElement="Flow_0zgy984">
+        <di:waypoint x="500" y="298" />
+        <di:waypoint x="500" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uwudm9_di" bpmnElement="Flow_1uwudm9">
+        <di:waypoint x="500" y="450" />
+        <di:waypoint x="500" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1phu172_di" bpmnElement="Flow_1phu172">
+        <di:waypoint x="500" y="590" />
+        <di:waypoint x="500" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ersm07_di" bpmnElement="Flow_0ersm07">
+        <di:waypoint x="500" y="720" />
+        <di:waypoint x="500" y="762" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="482" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10kxnwa_di" bpmnElement="Activity_10kxnwa">
+        <dc:Bounds x="450" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dtujum_di" bpmnElement="Activity_0dtujum">
+        <dc:Bounds x="450" y="218" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1k96fws_di" bpmnElement="Activity_1k96fws">
+        <dc:Bounds x="450" y="510" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1edszk5_di" bpmnElement="Activity_1edszk5">
+        <dc:Bounds x="450" y="640" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0es94qq_di" bpmnElement="Event_0es94qq">
+        <dc:Bounds x="482" y="762" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
