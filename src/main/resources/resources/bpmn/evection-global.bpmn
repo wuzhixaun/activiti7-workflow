@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="sample-diagram" targetNamespace="http://activiti.org/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="evection-global" name="出差申请审批-global" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>Flow_0a57434</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="Activity_05s5uwh" name="创建出差申请">
+      <bpmn2:incoming>Flow_0a57434</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1mz27hk</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0a57434" sourceRef="StartEvent_1" targetRef="Activity_05s5uwh" />
+    <bpmn2:userTask id="Activity_0e5skkk" name="经理审批">
+      <bpmn2:incoming>Flow_1mz27hk</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_18fn129</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_1i4nwda</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_1mz27hk" sourceRef="Activity_05s5uwh" targetRef="Activity_0e5skkk" />
+    <bpmn2:userTask id="Activity_1sari95" name="总经理审批">
+      <bpmn2:incoming>Flow_18fn129</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0yqllft</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_18fn129" sourceRef="Activity_0e5skkk" targetRef="Activity_1sari95">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${evection.num&gt;=3}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:userTask id="Activity_0tyt4t5" name="财务审批">
+      <bpmn2:incoming>Flow_0yqllft</bpmn2:incoming>
+      <bpmn2:incoming>Flow_1i4nwda</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_15iglal</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0yqllft" sourceRef="Activity_1sari95" targetRef="Activity_0tyt4t5" />
+    <bpmn2:sequenceFlow id="Flow_1i4nwda" sourceRef="Activity_0e5skkk" targetRef="Activity_0tyt4t5">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${evection.num&gt;=3}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:endEvent id="Event_0rmsqv9">
+      <bpmn2:incoming>Flow_15iglal</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_15iglal" sourceRef="Activity_0tyt4t5" targetRef="Event_0rmsqv9" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="evection-global">
+      <bpmndi:BPMNEdge id="Flow_0a57434_di" bpmnElement="Flow_0a57434">
+        <di:waypoint x="338" y="250" />
+        <di:waypoint x="390" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mz27hk_di" bpmnElement="Flow_1mz27hk">
+        <di:waypoint x="490" y="250" />
+        <di:waypoint x="550" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18fn129_di" bpmnElement="Flow_18fn129">
+        <di:waypoint x="650" y="250" />
+        <di:waypoint x="810" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yqllft_di" bpmnElement="Flow_0yqllft">
+        <di:waypoint x="860" y="290" />
+        <di:waypoint x="860" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i4nwda_di" bpmnElement="Flow_1i4nwda">
+        <di:waypoint x="650" y="250" />
+        <di:waypoint x="680" y="250" />
+        <di:waypoint x="680" y="420" />
+        <di:waypoint x="810" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15iglal_di" bpmnElement="Flow_15iglal">
+        <di:waypoint x="910" y="420" />
+        <di:waypoint x="1072" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="302" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05s5uwh_di" bpmnElement="Activity_05s5uwh">
+        <dc:Bounds x="390" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0e5skkk_di" bpmnElement="Activity_0e5skkk">
+        <dc:Bounds x="550" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tyt4t5_di" bpmnElement="Activity_0tyt4t5">
+        <dc:Bounds x="810" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sari95_di" bpmnElement="Activity_1sari95">
+        <dc:Bounds x="810" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rmsqv9_di" bpmnElement="Event_0rmsqv9">
+        <dc:Bounds x="1072" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

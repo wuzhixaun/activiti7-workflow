@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:activiti="http://activiti.org/bpmn" id="sample-diagram" targetNamespace="http://activiti.org/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="evection-candidate" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>Flow_1fpznwu</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="Activity_0nzzszh" name="创建出差申请" activiti:assignee="bajie">
+      <bpmn2:incoming>Flow_1fpznwu</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0th60ly</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_1fpznwu" sourceRef="StartEvent_1" targetRef="Activity_0nzzszh" />
+    <bpmn2:userTask id="Activity_043ewx3" name="部门经理审批" activiti:candidateUsers="lisi,wangwu">
+      <bpmn2:incoming>Flow_0th60ly</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_04panz2</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0th60ly" sourceRef="Activity_0nzzszh" targetRef="Activity_043ewx3" />
+    <bpmn2:userTask id="Activity_12v9aqf" name="总经理审批">
+      <bpmn2:incoming>Flow_04panz2</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0tkw5kk</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_04panz2" sourceRef="Activity_043ewx3" targetRef="Activity_12v9aqf" />
+    <bpmn2:userTask id="Activity_1egn8n8" name="财务审批">
+      <bpmn2:incoming>Flow_0tkw5kk</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0nwl9id</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0tkw5kk" sourceRef="Activity_12v9aqf" targetRef="Activity_1egn8n8" />
+    <bpmn2:endEvent id="Event_13qmyih">
+      <bpmn2:incoming>Flow_0nwl9id</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_0nwl9id" sourceRef="Activity_1egn8n8" targetRef="Event_13qmyih" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="evection-candidate">
+      <bpmndi:BPMNEdge id="Flow_1fpznwu_di" bpmnElement="Flow_1fpznwu">
+        <di:waypoint x="370" y="88" />
+        <di:waypoint x="370" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0th60ly_di" bpmnElement="Flow_0th60ly">
+        <di:waypoint x="370" y="210" />
+        <di:waypoint x="370" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04panz2_di" bpmnElement="Flow_04panz2">
+        <di:waypoint x="370" y="330" />
+        <di:waypoint x="370" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tkw5kk_di" bpmnElement="Flow_0tkw5kk">
+        <di:waypoint x="370" y="450" />
+        <di:waypoint x="370" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nwl9id_di" bpmnElement="Flow_0nwl9id">
+        <di:waypoint x="370" y="570" />
+        <di:waypoint x="370" y="612" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="352" y="52" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0nzzszh_di" bpmnElement="Activity_0nzzszh">
+        <dc:Bounds x="320" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_043ewx3_di" bpmnElement="Activity_043ewx3">
+        <dc:Bounds x="320" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12v9aqf_di" bpmnElement="Activity_12v9aqf">
+        <dc:Bounds x="320" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1egn8n8_di" bpmnElement="Activity_1egn8n8">
+        <dc:Bounds x="320" y="490" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13qmyih_di" bpmnElement="Event_13qmyih">
+        <dc:Bounds x="352" y="612" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
