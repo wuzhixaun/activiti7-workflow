@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:activiti="http://activiti.org/bpmn" id="sample-diagram" targetNamespace="http://activiti.org/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="evection-gateway-parallel" name="出差申请-并行网关" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>Flow_0zdh4sd</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="Activity_0dntncx" name="创建出差申请" activiti:assignee="bajie">
+      <bpmn2:incoming>Flow_0zdh4sd</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1m22cbr</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0zdh4sd" sourceRef="StartEvent_1" targetRef="Activity_0dntncx" />
+    <bpmn2:sequenceFlow id="Flow_1m22cbr" sourceRef="Activity_0dntncx" targetRef="Gateway_1ph0r3j" />
+    <bpmn2:parallelGateway id="Gateway_1ph0r3j">
+      <bpmn2:incoming>Flow_1m22cbr</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_147mmvb</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_0raj4ha</bpmn2:outgoing>
+    </bpmn2:parallelGateway>
+    <bpmn2:userTask id="Activity_0qv7rqp" name="技术经理审批" activiti:assignee="bajie">
+      <bpmn2:incoming>Flow_147mmvb</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0xr05cf</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_147mmvb" sourceRef="Gateway_1ph0r3j" targetRef="Activity_0qv7rqp" />
+    <bpmn2:userTask id="Activity_1qfbj30" name="项目经理审批" activiti:assignee="wukong">
+      <bpmn2:incoming>Flow_0raj4ha</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1cfoa57</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0raj4ha" sourceRef="Gateway_1ph0r3j" targetRef="Activity_1qfbj30" />
+    <bpmn2:sequenceFlow id="Flow_0xr05cf" sourceRef="Activity_0qv7rqp" targetRef="Gateway_0tb60wp" />
+    <bpmn2:parallelGateway id="Gateway_0tb60wp">
+      <bpmn2:incoming>Flow_0xr05cf</bpmn2:incoming>
+      <bpmn2:incoming>Flow_1cfoa57</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0nf8gkj</bpmn2:outgoing>
+    </bpmn2:parallelGateway>
+    <bpmn2:sequenceFlow id="Flow_1cfoa57" sourceRef="Activity_1qfbj30" targetRef="Gateway_0tb60wp" />
+    <bpmn2:exclusiveGateway id="Gateway_0mcnfxq">
+      <bpmn2:incoming>Flow_0nf8gkj</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_17s8ext</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_0voda54</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="Flow_0nf8gkj" sourceRef="Gateway_0tb60wp" targetRef="Gateway_0mcnfxq" />
+    <bpmn2:userTask id="Activity_02tjsnr" name="总经理审批" activiti:assignee="wukong">
+      <bpmn2:incoming>Flow_17s8ext</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1apwvgx</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_17s8ext" name="出差天数大于3天" sourceRef="Gateway_0mcnfxq" targetRef="Activity_02tjsnr">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${evection.num&gt;=3}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:endEvent id="Event_0qvaamy">
+      <bpmn2:incoming>Flow_1apwvgx</bpmn2:incoming>
+      <bpmn2:incoming>Flow_0voda54</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_1apwvgx" sourceRef="Activity_02tjsnr" targetRef="Event_0qvaamy" />
+    <bpmn2:sequenceFlow id="Flow_0voda54" sourceRef="Gateway_0mcnfxq" targetRef="Event_0qvaamy">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${evection.num&lt;3}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="evection-gateway-parallel">
+      <bpmndi:BPMNEdge id="Flow_0zdh4sd_di" bpmnElement="Flow_0zdh4sd">
+        <di:waypoint x="448" y="258" />
+        <di:waypoint x="500" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1m22cbr_di" bpmnElement="Flow_1m22cbr">
+        <di:waypoint x="600" y="258" />
+        <di:waypoint x="655" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_147mmvb_di" bpmnElement="Flow_147mmvb">
+        <di:waypoint x="680" y="233" />
+        <di:waypoint x="680" y="160" />
+        <di:waypoint x="750" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0raj4ha_di" bpmnElement="Flow_0raj4ha">
+        <di:waypoint x="680" y="283" />
+        <di:waypoint x="680" y="370" />
+        <di:waypoint x="750" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xr05cf_di" bpmnElement="Flow_0xr05cf">
+        <di:waypoint x="850" y="160" />
+        <di:waypoint x="970" y="160" />
+        <di:waypoint x="970" y="233" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cfoa57_di" bpmnElement="Flow_1cfoa57">
+        <di:waypoint x="850" y="370" />
+        <di:waypoint x="970" y="370" />
+        <di:waypoint x="970" y="283" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nf8gkj_di" bpmnElement="Flow_0nf8gkj">
+        <di:waypoint x="995" y="258" />
+        <di:waypoint x="1095" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17s8ext_di" bpmnElement="Flow_17s8ext">
+        <di:waypoint x="1120" y="283" />
+        <di:waypoint x="1120" y="420" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1093" y="349" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1apwvgx_di" bpmnElement="Flow_1apwvgx">
+        <di:waypoint x="1170" y="460" />
+        <di:waypoint x="1222" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0voda54_di" bpmnElement="Flow_0voda54">
+        <di:waypoint x="1145" y="258" />
+        <di:waypoint x="1240" y="258" />
+        <di:waypoint x="1240" y="442" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="412" y="240" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dntncx_di" bpmnElement="Activity_0dntncx">
+        <dc:Bounds x="500" y="218" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1fmhjf1_di" bpmnElement="Gateway_1ph0r3j">
+        <dc:Bounds x="655" y="233" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qv7rqp_di" bpmnElement="Activity_0qv7rqp">
+        <dc:Bounds x="750" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qfbj30_di" bpmnElement="Activity_1qfbj30">
+        <dc:Bounds x="750" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0jpv7nd_di" bpmnElement="Gateway_0tb60wp">
+        <dc:Bounds x="945" y="233" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0mcnfxq_di" bpmnElement="Gateway_0mcnfxq" isMarkerVisible="true">
+        <dc:Bounds x="1095" y="233" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qvaamy_di" bpmnElement="Event_0qvaamy">
+        <dc:Bounds x="1222" y="442" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02tjsnr_di" bpmnElement="Activity_02tjsnr">
+        <dc:Bounds x="1070" y="420" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

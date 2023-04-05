@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:activiti="http://activiti.org/bpmn" id="sample-diagram" targetNamespace="http://activiti.org/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="evection-gateway-exclusive" name="出差申请排他网管" isExecutable="true">
+    <bpmn2:startEvent id="Event_0ucg24q">
+      <bpmn2:outgoing>Flow_1igr9y4</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="Activity_0bjdlol" name="填写出差单" activiti:assignee="bajie">
+      <bpmn2:incoming>Flow_1igr9y4</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_034e1i6</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_1igr9y4" sourceRef="Event_0ucg24q" targetRef="Activity_0bjdlol" />
+    <bpmn2:userTask id="Activity_0wishwl" name="部门经理审批" activiti:assignee="wukong">
+      <bpmn2:incoming>Flow_034e1i6</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_13ho2px</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_034e1i6" sourceRef="Activity_0bjdlol" targetRef="Activity_0wishwl" />
+    <bpmn2:exclusiveGateway id="Gateway_1iwiwd7" name="出差天数判断">
+      <bpmn2:incoming>Flow_13ho2px</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0e088tw</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_199ypfm</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="Flow_13ho2px" sourceRef="Activity_0wishwl" targetRef="Gateway_1iwiwd7" />
+    <bpmn2:userTask id="Activity_0gyx5cd" name="总经理审批" activiti:assignee="wukong">
+      <bpmn2:incoming>Flow_0e088tw</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0380iy6</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_0e088tw" name="出差天数大于等于3天" sourceRef="Gateway_1iwiwd7" targetRef="Activity_0gyx5cd">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${evection.num&gt;=1}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:userTask id="Activity_0ivkmmh" name="财务审批" activiti:assignee="bajie">
+      <bpmn2:incoming>Flow_199ypfm</bpmn2:incoming>
+      <bpmn2:incoming>Flow_0380iy6</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_003yqii</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_199ypfm" name="出差天数大于等于1天" sourceRef="Gateway_1iwiwd7" targetRef="Activity_0ivkmmh">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${evection.num&gt;=1}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:endEvent id="Event_06au9zy">
+      <bpmn2:incoming>Flow_003yqii</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_003yqii" sourceRef="Activity_0ivkmmh" targetRef="Event_06au9zy" />
+    <bpmn2:sequenceFlow id="Flow_0380iy6" sourceRef="Activity_0gyx5cd" targetRef="Activity_0ivkmmh" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="evection-gateway-exclusive">
+      <bpmndi:BPMNEdge id="Flow_1igr9y4_di" bpmnElement="Flow_1igr9y4">
+        <di:waypoint x="458" y="240" />
+        <di:waypoint x="510" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_034e1i6_di" bpmnElement="Flow_034e1i6">
+        <di:waypoint x="610" y="240" />
+        <di:waypoint x="670" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13ho2px_di" bpmnElement="Flow_13ho2px">
+        <di:waypoint x="770" y="240" />
+        <di:waypoint x="835" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e088tw_di" bpmnElement="Flow_0e088tw">
+        <di:waypoint x="885" y="240" />
+        <di:waypoint x="1050" y="240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="927" y="222" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_199ypfm_di" bpmnElement="Flow_199ypfm">
+        <di:waypoint x="860" y="265" />
+        <di:waypoint x="860" y="390" />
+        <di:waypoint x="1050" y="390" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="831" y="325" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_003yqii_di" bpmnElement="Flow_003yqii">
+        <di:waypoint x="1150" y="390" />
+        <di:waypoint x="1272" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0380iy6_di" bpmnElement="Flow_0380iy6">
+        <di:waypoint x="1100" y="280" />
+        <di:waypoint x="1100" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0ucg24q_di" bpmnElement="Event_0ucg24q">
+        <dc:Bounds x="422" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bjdlol_di" bpmnElement="Activity_0bjdlol">
+        <dc:Bounds x="510" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wishwl_di" bpmnElement="Activity_0wishwl">
+        <dc:Bounds x="670" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1iwiwd7_di" bpmnElement="Gateway_1iwiwd7" isMarkerVisible="true">
+        <dc:Bounds x="835" y="215" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="827" y="185" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gyx5cd_di" bpmnElement="Activity_0gyx5cd">
+        <dc:Bounds x="1050" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ivkmmh_di" bpmnElement="Activity_0ivkmmh">
+        <dc:Bounds x="1050" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06au9zy_di" bpmnElement="Event_06au9zy">
+        <dc:Bounds x="1272" y="372" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
